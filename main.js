@@ -5,8 +5,8 @@ const app = express()
 
 
 // Para conexão MongDB
-const dbUrl = 'mongodb://natan_bronzatto_orion:27012587@20.127.168.116:27020/?directConnection=true&serverSelectionTimeoutMS=2000&authSource=OrionIntegracao&appName=mongosh+2.1.1'
-const dbName = 'notes'
+const dbUrl = 'mongodb+srv://mongo_user_1:KMAYJQkgoMMgYWaJ@mongonode-0.an8z1gw.mongodb.net'
+const dbName = 'Stars'
 const client = new MongoClient(dbUrl)
 
 
@@ -22,7 +22,8 @@ async function main(){
 
 
   const db = client.db(dbName)
-  const collection = db.collection('item')
+  const collection = db.collection('stars')
+
 
   // Read All - [GET] /item
   app.get('/item', async (req, res) => {
