@@ -1,15 +1,14 @@
-import {MongoClient} from "mongodb";
-import dotenv from "dotenv";
+import pg from 'pg';
+import dotenv from 'dotenv';
 
 dotenv.config();
 
-const client = new MongoClient(process.env.DATABASE_URL);
-try{
-    console.log('Conectando ao banco de dados ...')
-    await client.connect();
-    console.log('Banco de dados conectado com sucesso !')
-} catch(err){
-    console.log(err);
-}
+const { Pool } = pg;
 
-export const db = mongoClient.db();
+const connectionConfig = {
+    connectionString: process.env.DATABASE_URL
+};
+
+if (process.env.NODE_ENV === 'production') connectionConfig.ssl = true;
+
+export const db = new Pool(connectionConfig);

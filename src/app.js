@@ -6,13 +6,15 @@ import router from "./routes/index.routes.js";
 
 const app = express();
 
-dotenv.config();
-app.use(express.json());
-app.use(router);
-app.use(errorHandler);
-
 const port = process.env.PORT || 3000;
 
-app.listen(port, () => {
-    console.log(`Servidor rodando na porta ${port}`);
-})
+
+dotenv.config();
+app
+    .use(express.json())
+    .use(router)
+    .use(errorHandler)
+    .get("/health", (req, res) => res.sendStatus(httpStatus.OK))
+    .listen(port, () => {
+        console.log(`Servidor rodando na porta ${port}`);
+    })
