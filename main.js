@@ -1,65 +1,55 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const { Client, Pet, Appointment, TimeSlot, Adm } = require('./models_db/models'); // Importe os modelos
+const { Client } = require('./models_db/models');
+const fs = require('fs');
+const path = require('path');
+
+// Carregar configuração
+const configFilePath = path.join(__dirname, 'config.json');
+const configData = fs.readFileSync(configFilePath, 'utf8');
+const config = JSON.parse(configData);
 
 const app = express();
-app.use(express.json()); // Para permitir o envio de JSON no corpo das requisições
+const port = 3000;
+
+// Middleware para parsear o corpo das requisições
+app.use(express.json());
+
+// URL de conexão com o MongoDB
+const dbUrl = `mongodb+srv://${config.mongoUser}:${config.mongoPassword}@${config.mongoHost}/${config.dbName}?retryWrites=true&w=majority`;
 
 // Conexão com o MongoDB
-mongoose.connect('mongodb+srv://mongo_user_1:KMAYJQkgoMMgYWaJ@mongonode-0.an8z1gw.mongodb.net/Stars')
-  .then(() => console.log('Banco de dados conectado com sucesso!'))
-  .catch(err => console.error('Erro ao conectar ao banco de dados:', err));
+mongoose.connect(dbUrl, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log('Conectado ao MongoDB'))
+  .catch((error) => console.error('Erro ao conectar ao MongoDB:', error));
 
-// Endpoints para Clientes (Clients)
-app.get('/', (req, res) => {
-  res.send('<h2>Um teste ai ...</h2>')
-})
-
-// Criar um novo cliente
-app.post('/clients', async (req, res) => {
-  try {
-    const newClient = new Client(req.body);
-    const result = await newClient.save();
-    res.status(201).json(result);
-  } catch (error) {
-    res.status(400).json({ error: error.message });
-  }
-});
-
-// Listar todos os clientes
+// Rota GET para buscar todos os clientes
 app.get('/clients', async (req, res) => {
-  try {
-    const clients = await Client.find();
-    res.json(clients);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
+    try {
+        const clients = await Client.find();
+        res.json(clients);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
 });
 
-// Atualizar um cliente
-app.put('/clients/:id', async (req, res) => {
-  try {
-    const updatedClient = await Client.findByIdAndUpdate(req.params.id, req.body, { new: true });
-    if (!updatedClient) return res.status(404).json({ error: 'Cliente não encontrado' });
-    res.json(updatedClient);
-  } catch (error) {
-    res.status(400).json({ error: error.message });
-  }
-});
+// Rota POST para adicionar um novo cliente
+app.post('/clients', async (req, res) => {
+    const client = new Client({
+        name: req.body.name,
+        email: req.body.email,
+        phone: req.body.phone,
+    });
 
-// Deletar um cliente
-app.delete('/clients/:id', async (req, res) => {
-  try {
-    const deletedClient = await Client.findByIdAndDelete(req.params.id);
-    if (!deletedClient) return res.status(404).json({ error: 'Cliente não encontrado' });
-    res.json({ message: 'Cliente deletado com sucesso' });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
+    try {
+        const newClient = await client.save();
+        res.status(201).json(newClient);
+    } catch (err) {
+        res.status(400).json({ message: err.message });
+    }
 });
-
 
 // Iniciando o servidor
-app.listen(3000, () => {
-    console.log('Servidor rodando na porta 3000');
+app.listen(port, () => {
+  console.log(`API rodando em http://localhost:${port}`);
 });
