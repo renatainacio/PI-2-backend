@@ -14,9 +14,13 @@ mongoose.connect('mongodb+srv://mongo_user_1:KMAYJQkgoMMgYWaJ@mongonode-0.an8z1g
   .catch(err => console.error('Erro ao conectar ao banco de dados:', err));
 
 // Endpoints para Clientes (Clients)
-
+app.get('/', (req, res) => {
+  res.send('<h2>Um teste ai ...</h2>')
+})
 // Criar um novo cliente
 app.post('/clients', async (req, res) => {
+  console.log('Posted');
+  onsole.log(req.body);
   try {
     const newClient = new Client(req.body);
     const result = await newClient.save();
@@ -195,8 +199,8 @@ app.delete('/time-slots/:id', async (req, res) => {
   }
 });
 
-// Endpoints para Administradores (Adms)
 
+// Endpoints para Administradores (Adms)
 // Criar um novo administrador
 app.post('/adms', async (req, res) => {
   try {
