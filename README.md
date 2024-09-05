@@ -58,3 +58,33 @@ Ref: appointments.client_id <> clients.id
 Ref: appointments.pet_id <> pets.id
 Ref: time_slots.appointment_id - appointments.id
 ```
+
+## Exemplos
+```json
+{
+  "name": "John Doe",
+  "email": "john@example.com",
+  "phone": 123456789
+}
+```
+```json
+{
+  "client_id": "60d5f4798c1b4c23b8f5cdd1",  // ID do cliente existente
+  "pet_id": "60d5f4798c1b4c23b8f5cdd2",    // ID do pet existente
+  "reason": "Checkup",
+  "appointment_date": "2023-09-15",
+  "appointment_time": "10:30",
+  "status": "Scheduled",
+  "notes": "Routine check-up"
+}
+
+```
+```json
+{
+  "client_id": "60d5f4798c1b4c23b8f5cdd1",  // ID do cliente existente
+  "name": "Buddy",
+  "species": "Dog",
+  "breed": "Golden Retriever",
+  "age": 3
+}
+```
