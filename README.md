@@ -88,3 +88,26 @@ Ref: time_slots.appointment_id - appointments.id
   "age": 3
 }
 ```
+```markdown
+my-vet-api/
+├── config/
+│   └── db.js             # Configuração do banco de dados
+├── controllers/
+│   ├── clientController.js    # Lógica dos endpoints de clientes
+│   ├── petController.js       # Lógica dos endpoints de pets
+│   ├── appointmentController.js  # Lógica dos endpoints de consultas
+│   └── timeSlotController.js   # Lógica dos endpoints de horários
+├── models/
+│   ├── Client.js          # Modelo de cliente
+│   ├── Pet.js             # Modelo de pet
+│   ├── Appointment.js     # Modelo de consulta
+│   └── TimeSlot.js        # Modelo de horário
+├── routes/
+│   ├── clientRoutes.js    # Rotas de clientes
+│   ├── petRoutes.js       # Rotas de pets
+│   ├── appointmentRoutes.js  # Rotas de consultas
+│   └── timeSlotRoutes.js   # Rotas de horários
+├── app.js                 # Arquivo principal da aplicação
+├── package.json
+└── .env                   # Variáveis de ambiente
+```
