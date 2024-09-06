@@ -16,9 +16,9 @@ app.use(express.json());
 
 // Incluir as rotas
 app.use('/clients', require('./routes/clientRoutes'));
-//app.use('/api/pets', require('./routes/petRoutes'));
-//app.use('/api/appointments', require('./routes/appointmentRoutes'));
-//app.use('/api/time_slots', require('./routes/timeSlotRoutes'));
+//app.use('/pets', require('./routes/petRoutes'));
+//app.use('/appointments', require('./routes/appointmentRoutes'));
+//app.use('/time_slots', require('./routes/timeSlotRoutes'));
 
 // Porta do servidor
 const PORT = process.env.PORT || 5000;
